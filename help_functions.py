@@ -1,9 +1,21 @@
-from sklearn.utils import resample, shuffle
 import random as python_random
+
 import os
+import csv
+import random as python_random
+
+import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 import tensorflow as tf
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.utils import resample, shuffle
+from sklearn.metrics import accuracy_score
+from sklearn.neighbors import LocalOutlierFactor, NearestNeighbors
+
+# from _composite import ModifiedLatentCF
+from _guided import ModifiedLatentCF
+from _vanilla import LatentCF
 
 def reset_seeds(seed_value=39):
     # ref: https://keras.io/getting_started/faq/#how-can-i-obtain-reproducible-results-using-keras-during-development

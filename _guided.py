@@ -5,7 +5,7 @@ import tensorflow as tf
 from tensorflow import keras
 
 from wildboar.explain import IntervalImportance
-from LIMESegment.Utils.explanations import LIMESegment
+#from LIMESegment.Utils.explanations import LIMESegment
 
 
 class ModifiedLatentCF:
@@ -288,37 +288,37 @@ def extract_encoder_decoder(autoencoder):
     return autoencoder.input, encoder, encode_input, decoder
 
 
-def get_local_weights(
-    input_sample, classifier_model, random_state=None, pred_label=None
-):
-    n_timesteps, n_dims = input_sample.shape  # n_dims=1
-    # for binary classification, default to 1
-    desired_label = int(1 - pred_label) if pred_label is not None else 1
-    seg_imp, seg_idx = LIMESegment(
-        input_sample,
-        classifier_model,
-        model_type=desired_label,
-        cp=10,
-        window_size=10,
-        random_state=random_state,
-    )
+# def get_local_weights(
+#     input_sample, classifier_model, random_state=None, pred_label=None
+# ):
+#     n_timesteps, n_dims = input_sample.shape  # n_dims=1
+#     # for binary classification, default to 1
+#     desired_label = int(1 - pred_label) if pred_label is not None else 1
+#     seg_imp, seg_idx = LIMESegment(
+#         input_sample,
+#         classifier_model,
+#         model_type=desired_label,
+#         cp=10,
+#         window_size=10,
+#         random_state=random_state,
+#     )
 
-    if desired_label == 1:
-        # calculate the threshold of masking, lower 25 percentile (neg contribution for pos class)
-        masking_threshold = np.percentile(seg_imp, 25)
-        masking_idx = np.where(seg_imp <= masking_threshold)
-    else:  # desired_label == 0
-        # calculate the threshold of masking, upper 25 percentile (pos contribution for neg class)
-        masking_threshold = np.percentile(seg_imp, 75)
-        masking_idx = np.where(seg_imp >= masking_threshold)
+#     if desired_label == 1:
+#         # calculate the threshold of masking, lower 25 percentile (neg contribution for pos class)
+#         masking_threshold = np.percentile(seg_imp, 25)
+#         masking_idx = np.where(seg_imp <= masking_threshold)
+#     else:  # desired_label == 0
+#         # calculate the threshold of masking, upper 25 percentile (pos contribution for neg class)
+#         masking_threshold = np.percentile(seg_imp, 75)
+#         masking_idx = np.where(seg_imp >= masking_threshold)
 
-    weighted_steps = np.ones(n_timesteps)
-    for start_idx in masking_idx[0]:
-        weighted_steps[seg_idx[start_idx] : seg_idx[start_idx + 1]] = 0
+#     weighted_steps = np.ones(n_timesteps)
+#     for start_idx in masking_idx[0]:
+#         weighted_steps[seg_idx[start_idx] : seg_idx[start_idx + 1]] = 0
 
-    # need to reshape for multiplication in `tf.math.multiply()`
-    weighted_steps = weighted_steps.reshape(1, n_timesteps, n_dims)
-    return weighted_steps
+#     # need to reshape for multiplication in `tf.math.multiply()`
+#     weighted_steps = weighted_steps.reshape(1, n_timesteps, n_dims)
+#     return weighted_steps
 
 
 def get_global_weights(

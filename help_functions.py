@@ -14,8 +14,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.neighbors import LocalOutlierFactor, NearestNeighbors
 
 # from _composite import ModifiedLatentCF
-from _guided import ModifiedLatentCF
-from _vanilla import LatentCF
+from _guided import *
 
 def reset_seeds(seed_value=39):
     # ref: https://keras.io/getting_started/faq/#how-can-i-obtain-reproducible-results-using-keras-during-development

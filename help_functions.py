@@ -70,10 +70,8 @@ def extract_two_digits(X_train,y_train,X_test,y_test,n_1,n_2, RANDOM_STATE):
   
   print(f'Class 0 represents number {n_1}. [1.,0.]')
   print(f'Class 1 represents number {n_2}. [0.,1.]')
-  from tensorflow.keras.utils import to_categorical
-  y_train = to_categorical(y_train, len(np.unique(y_train)))
-  y_test = to_categorical(y_test, len(np.unique(y_test)))
-  return X_train, y_train, X_test, y_test, y_train_classes, y_test_classes
+    
+  return X_train, y_train, X_test, y_test
 
 def visualise_digit(X,y,idx,figsize = None):
   print(f'y = {y[idx]}')

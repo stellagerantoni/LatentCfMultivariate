@@ -26,7 +26,7 @@ def reset_seeds(seed_value=39):
     # set_seed() will make random number generation
     tf.random.set_seed(seed_value)
 
-def extract_two_digits(X_train,y_train,X_test,y_test,n_1,n_2):
+def extract_two_digits(X_train,y_train,X_test,y_test,n_1,n_2, RANDOM_STATE):
   zero_indices_train = np.where(y_train == n_1)[0]
   one_indices_train = np.where(y_train == n_2)[0]
   zero_indices_test = np.where(y_test == n_1)[0]

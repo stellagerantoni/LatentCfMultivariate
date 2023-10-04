@@ -53,12 +53,12 @@ def extract_two_digits(X_train,y_train,X_test,y_test,n_1,n_2, RANDOM_STATE):
   X_test, y_test = shuffle(X_test, y_test, random_state=RANDOM_STATE)
 
   for i in range(y_train.shape[0]):
-    if y_train[i] == n_1:
+    if y_train[i] == n_2:
       y_train[i]=1
     else:
       y_train [i]=0
   for i in range(y_test.shape[0]):
-    if y_test[i] == n_1:
+    if y_test[i] == n_2:
       y_test[i]=1
     else:
       y_test[i]=0

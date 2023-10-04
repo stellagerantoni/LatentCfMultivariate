@@ -26,6 +26,38 @@ def reset_seeds(seed_value=39):
     # set_seed() will make random number generation
     tf.random.set_seed(seed_value)
 
+def visualise_digit(X,y,idx,figsize = None):
+  print(f'y = {y[idx]}')
+  X = X.transpose (0,2,1)
+  x_coords = X[idx, 0]
+  y_coords = X[idx,1]
+  if figsize == None:
+    plt.figure(figsize=(5, 5))
+  else:
+    plt.figure(figsize= figsize)
+  plt.plot(x_coords, y_coords, marker='o', linestyle='-')
+  plt.title("Handwritten Digit 3")
+  plt.xlabel("X")
+  plt.ylabel("Y")
+  plt.grid(True)
+  plt.show()
+
+def visualise_decoded_digit(X,y, figsize = None):
+  print(f'y = {y}')
+  X = X.transpose (0,2,1)
+  x_coords = X[0,0]
+  y_coords = X[0,1]
+  if figsize == None:
+    plt.figure(figsize=(5, 5))
+  else:
+    plt.figure(figsize= figsize)
+  plt.plot(x_coords, y_coords, marker='o', linestyle='-')
+  plt.title("Handwritten Digit 3")
+  plt.xlabel("X")
+  plt.ylabel("Y")
+  plt.grid(True)
+  plt.show()
+
 def upsample_minority_multivariate(X, y, random_state=39):
     unique_classes, class_counts = np.unique(y, return_counts=True)
     max_count = max(class_counts)

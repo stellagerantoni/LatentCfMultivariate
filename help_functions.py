@@ -26,6 +26,55 @@ def reset_seeds(seed_value=39):
     # set_seed() will make random number generation
     tf.random.set_seed(seed_value)
 
+def extract_two_digits(X_train,y_train,X_test,y_test,n_1,n_2):
+  zero_indices_train = np.where(y_train == n_1)[0]
+  one_indices_train = np.where(y_train == n_2)[0]
+  zero_indices_test = np.where(y_test == n_1)[0]
+  one_indices_test = np.where(y_test == n_2)[0]
+
+  X_train_zeroes = X_train[zero_indices_train]
+  y_train_zeroes = y_train[zero_indices_train]
+
+  X_train_ones = X_train[one_indices_train]
+  y_train_ones = y_train[one_indices_train]
+
+  X_test_zeroes = X_test[zero_indices_test]
+  y_test_zeroes = y_test[zero_indices_test]
+
+  X_test_ones = X_test[one_indices_test]
+  y_test_ones = y_test[one_indices_test]
+
+  X_train = np.concatenate([X_train_zeroes, X_train_ones])
+  y_train = np.concatenate([y_train_zeroes, y_train_ones])
+  X_test = np.concatenate([X_test_zeroes, X_test_ones])
+  y_test = np.concatenate([y_test_zeroes, y_test_ones])
+
+  X_train, y_train = shuffle(X_train, y_train, random_state=RANDOM_STATE)
+  X_test, y_test = shuffle(X_test, y_test, random_state=RANDOM_STATE)
+
+  for i in range(y_train.shape[0]):
+    if y_train[i] == n_1:
+      y_train[i]=1
+    else:
+      y_train [i]=0
+  for i in range(y_test.shape[0]):
+    if y_test[i] == n_1:
+      y_test[i]=1
+    else:
+      y_test[i]=0
+
+  y_train = y_train.astype(int)
+  y_test = y_test.astype(int)
+  y_train_classes = y_train
+  y_test_classes = y_test
+  
+  print(f'Class 0 represents number {n_1}. [1.,0.]')
+  print(f'Class 1 represents number {n_2}. [0.,1.]')
+  from tensorflow.keras.utils import to_categorical
+  y_train = to_categorical(y_train, len(np.unique(y_train)))
+  y_test = to_categorical(y_test, len(np.unique(y_test)))
+  return X_train, y_train, X_test, y_test, y_train_classes, y_test_classes
+
 def visualise_digit(X,y,idx,figsize = None):
   print(f'y = {y[idx]}')
   X = X.transpose (0,2,1)
